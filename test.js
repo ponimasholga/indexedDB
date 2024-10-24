@@ -6,41 +6,47 @@
 Выставлять ей срок жизни (3 дня), ограничивать куку в рамках определенного домена, защитить куку от атаки XSRF.
 
 */
-function setCookie (name, value, time, domain) {
-    const currentDate = new Date()
-    currentDate.setDate(currentDate.getDate() + time)
-    document.cookie = `${name}=${value}; domain=${domain}"; expires=${currentDate}; samesite=strict`
+
+function setCookie(name, value, days, domain) {
+  var d = new Date();
+  d.setTime(d.getTime() + (days*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = name + "=" + value + "; secure=true; samesite=lax;" + expires + "; domain="+domain+";"
 }
 
-setCookie('user', 'Ivan', 3, 'site.com')
+setCookie('user', 'Anna', 3, 'https://oggetto.ru/');
 
+console.log( document.cookie)
 
 /*
 Задача 2
 Написать метод, который будет класть данные в Local Storage по ключу, в зависимости от типа данных. 
-И второй метод, который будет получать данные из LocalStorage по ключу, в зависимости от типов данных.
-*/
+И второй метод, который будет получать данные из LocalStorage по ключу, в зависимости от типов данных.*/
 
 function setlocalStorage (key, item) {
-    if (typeof item === 'object') {
-      item = JSON.stringify(item)
-    } else {
-      item = String(item)
-    }
-
-    localStorage.setItem(String(key), item)
+  localStorage.setItem(key , JSON.stringify(item));
+}
+function getlocalStorage (key) {
+  return localStorage.getItem(key) 
 }
 
 const user = {
-    name: 'alex',
-    age: 5,
-}
+  name: "Alex",
+  age: 25
+};
 
-setlocalStorage('test', user)
+setlocalStorage('item', user)
+setlocalStorage('item2', '123')
+setlocalStorage('item3', 111)
 
-function getlocalStorage (key) {
-    return localStorage.getItem('key') 
-}
+const item = JSON.parse(getlocalStorage('item'));
+console.log(item);
+const item2 = JSON.parse(getlocalStorage('item2'));
+console.log(item2);
+const item3 = JSON.parse(getlocalStorage('item3'));
+console.log(item3);
+
+
 
 /*
 Задача 3
