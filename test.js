@@ -11,10 +11,10 @@ function setCookie(name, value, days, domain) {
   var d = new Date();
   d.setTime(d.getTime() + (days*24*60*60*1000));
   var expires = "expires="+ d.toUTCString();
-  document.cookie = name + "=" + value + "; secure=true; samesite=lax;" + expires + "; domain="+domain+";"
+  document.cookie = name + "=" + value + "; secure=true; samesite=lax;" + "expires=" + expires + "; domain="+domain+";"
 }
 
-setCookie('user', 'Anna', 3, 'https://oggetto.ru/');
+setCookie('user', 'USER_NEW', 3, 'oggetto.ru');
 
 console.log( document.cookie)
 
@@ -27,7 +27,7 @@ function setlocalStorage (key, item) {
   localStorage.setItem(key , JSON.stringify(item));
 }
 function getlocalStorage (key) {
-  return localStorage.getItem(key) 
+  return JSON.parse(localStorage.getItem(key))
 }
 
 const user = {
@@ -39,11 +39,11 @@ setlocalStorage('item', user)
 setlocalStorage('item2', '123')
 setlocalStorage('item3', 111)
 
-const item = JSON.parse(getlocalStorage('item'));
+const item = getlocalStorage('item');
 console.log(item);
-const item2 = JSON.parse(getlocalStorage('item2'));
+const item2 = getlocalStorage('item2');
 console.log(item2);
-const item3 = JSON.parse(getlocalStorage('item3'));
+const item3 = getlocalStorage('item3');
 console.log(item3);
 
 
